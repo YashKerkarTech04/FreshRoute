@@ -1,0 +1,17 @@
+destination,commodity,demand,selling_price
+Mumbai,Tomato,38,29.09
+Mumbai,Mango,103,93.51
+Mumbai,Banana,69,42.54
+Mumbai,Spinach,118,22.44
+Pune,Tomato,60,24.89
+Pune,Mango,71,65.96
+Pune,Banana,101,41.99
+Pune,Spinach,95,31.13
+Nashik,Tomato,65,29.3
+Nashik,Mango,55,76.6
+Nashik,Banana,107,31.84
+Nashik,Spinach,40,25.6
+Thane,Tomato,56,33.34
+Thane,Mango,44,75.5
+Thane,Banana,37,41.25
+Thane,Spinach,111,23.76

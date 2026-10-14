@@ -1,0 +1,5 @@
+destination,travel_hours,transport_cost_per_crate,handling_hours,capacity
+Mumbai,3,3.0,1,350
+Pune,5,5.0,1,250
+Nashik,4,4.0,1,200
+Thane,3,2.5,1,200
