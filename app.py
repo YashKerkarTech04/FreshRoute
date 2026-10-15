@@ -5,14 +5,24 @@ import plotly.express as px
 import streamlit as st
 
 # Hide the Streamlit header, footer, and main menu
+
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
             footer {visibility: hidden;}
             header {visibility: hidden;}
+            /* Targets the floating "Hosted with Streamlit" button container */
+            .viewerBadge_container__1QSob, 
+            .styles_viewerBadge__1yB5_, 
+            .viewerBadge_link__1S137, 
+            .viewerBadge_text__1JaDK,
+            [data-testid="stStatusWidget"] {
+                display: none !important;
+            }
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
+
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
