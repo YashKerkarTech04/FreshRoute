@@ -38,7 +38,7 @@ from src.scenarios import (
     apply_scenario, robustness_summary, run_robustness,
 )
 
-st.set_page_config(page_title="FreshRoute", page_icon="🥭", layout="wide")
+st.set_page_config(page_title="FreshRoute", page_icon="🥬", layout="wide")
 
 BASELINE = "Baseline"
 BEST = "Optimized + discounts"
@@ -81,7 +81,7 @@ def robustness(version):
 def rupees(value):
     return f"₹{value:,.0f}"
 
-st.title("🥭 FreshRoute")
+st.title("🥬 FreshRoute")
 st.caption(
     "Decision support for perishable produce distribution: what to "
     "dispatch first, where to send it, and when to discount. "
