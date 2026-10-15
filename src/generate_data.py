@@ -1,4 +1,4 @@
-
+# generate_data.py
 from pathlib import Path
 
 import numpy as np
@@ -39,6 +39,8 @@ commodities = {
 
 inventory_rows = []
 
+# 20 inventory batches are created here.
+# Tomato → Mango → Banana → Spinach → again repeat.
 for i in range(1, 21):
     commodity = list(commodities)[(i - 1) % len(commodities)]
     spec = commodities[commodity]
