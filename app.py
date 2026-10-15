@@ -4,6 +4,16 @@ from pathlib import Path
 import plotly.express as px
 import streamlit as st
 
+# Hide the Streamlit header, footer, and main menu
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
+
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from src.metrics import (  
