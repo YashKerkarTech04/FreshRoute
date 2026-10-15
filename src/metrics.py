@@ -1,15 +1,3 @@
-"""KPIs for FreshRoute plans.
-
-Cost model (one definition, used for every planner):
-  revenue          = sum(crates x selling price after discount)
-  discount cost    = list-price revenue - revenue
-  net revenue      = revenue - transport - handling - spoilage write-off
-  net profit       = net revenue - product cost of the crates sold
-  spoilage write-off = purchase cost of stock that expires unsold
-
-All functions take plain DataFrames, so app.py can show results directly.
-"""
-
 import pandas as pd
 
 AT_RISK_STATUS = "At risk - will spoil"

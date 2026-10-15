@@ -1,16 +1,12 @@
-# generate_data.py
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 
-
-# Save CSV files in the project's data folder.
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
-# Reproducible simulated data.
 rng = np.random.default_rng(42)
 
 # Inventory batches.

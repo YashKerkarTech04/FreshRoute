@@ -1,11 +1,3 @@
-"""Robustness and sensitivity analysis for FreshRoute.
-
-Two questions per scenario:
-  Fixed plan - the plan was made on nominal data; what happens when reality
-               differs (delays, shorter shelf life, weaker demand, lower prices)?
-  Replanned  - the planner is re-run with the new information.
-"""
-
 import numpy as np
 import pandas as pd
 

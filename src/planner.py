@@ -1,13 +1,3 @@
-"""FreshRoute planners.
-
-Three planners share one data format and one cost model:
-  1. create_plan_baseline   - FIFO to the nearest market (documented baseline)
-  2. create_plan_greedy     - rule-based: urgency first, then unit margin
-  3. create_plan_optimized  - integer program, optional clearance discounts
-
-Every plan row is one shipment: batch -> destination at one price level.
-"""
-
 from pathlib import Path
 
 import numpy as np
@@ -17,30 +7,16 @@ from scipy.optimize import Bounds, LinearConstraint, milp
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 
-# ---------------------------------------------------------------------------
-# Disclosed assumptions (change here, everything else follows)
-# ---------------------------------------------------------------------------
-# One dispatch cycle. Stock that is not dispatched now ages by this much.
 CYCLE_HOURS = 24
-# Extra shelf-life margin required on arrival (hedge against delays).
 SAFETY_BUFFER_HOURS = 0.0
-# Clearance discount levels, offered only on at-risk batches.
 DISCOUNT_TIERS = (0.10, 0.20, 0.30)
-# Each +1% discount unlocks +1.5% extra demand from price-sensitive buyers.
-# Discounts are targeted at those buyers, so list-price sales are not
-# cannibalised.
 DEMAND_ELASTICITY = 1.5
-# A batch is "at risk" (eligible for discount) at or below this shelf life.
 DISCOUNT_ELIGIBLE_HOURS = 48
 
 AT_RISK_STATUS = "At risk - will spoil"
 CARRY_STATUS = "Carry forward"
 DONE_STATUS = "Fully allocated"
 
-
-# ---------------------------------------------------------------------------
-# Data and small helpers
-# ---------------------------------------------------------------------------
 def _read_csv(path):
     """Read a CSV that may have been re-saved by Excel or Notepad.
 
@@ -247,10 +223,6 @@ def build_leftovers(inventory, plan, routes):
         ["shelf_life_hours", "batch_id"]
     ).reset_index(drop=True)
 
-
-# ---------------------------------------------------------------------------
-# Planner 1: documented baseline
-# ---------------------------------------------------------------------------
 def create_plan_baseline(inventory, destinations, routes, buffer_hours=None):
     """Baseline: what a distributor does without decision support.
 
@@ -310,10 +282,6 @@ def create_plan_baseline(inventory, destinations, routes, buffer_hours=None):
     plan = finalize_plan(plan, order="fifo")
     return plan, build_leftovers(inventory, plan, routes)
 
-
-# ---------------------------------------------------------------------------
-# Planner 2: rule-based (urgency first, then margin)
-# ---------------------------------------------------------------------------
 def create_plan_greedy(inventory, destinations, routes, buffer_hours=None):
     """Rule-based planner: shortest shelf life first, best margin first."""
     buf = _buffer(buffer_hours)
@@ -383,10 +351,6 @@ def create_plan_greedy(inventory, destinations, routes, buffer_hours=None):
     plan = finalize_plan(pd.DataFrame(allocations), order="urgency")
     return plan, build_leftovers(inventory, plan, routes)
 
-
-# ---------------------------------------------------------------------------
-# Planner 3: optimizer with optional clearance discounts
-# ---------------------------------------------------------------------------
 def create_plan_optimized(inventory, destinations, routes,
                           allow_discounts=True, buffer_hours=None):
     """Maximise net profit with an integer program.
@@ -538,10 +502,6 @@ PLANNERS = {
     "Optimized + discounts": create_plan_optimized,
 }
 
-
-# ---------------------------------------------------------------------------
-# Discount recommendations and feasibility validation
-# ---------------------------------------------------------------------------
 def discount_recommendations(plan):
     """Clearance discounts recommended by a plan, one row per shipment."""
     columns = [

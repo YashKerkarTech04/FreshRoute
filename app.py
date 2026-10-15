@@ -1,8 +1,3 @@
-"""FreshRoute: decision support for perishable produce distribution.
-
-Run with:  streamlit run app.py
-"""
-
 import sys
 from pathlib import Path
 
@@ -11,15 +6,15 @@ import streamlit as st
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
-from src.metrics import (  # noqa: E402
+from src.metrics import (  
     commodity_summary, headline_table, plan_metrics, route_utilization,
 )
-from src.planner import (  # noqa: E402
+from src.planner import (  
     CYCLE_HOURS, DATA_DIR, DEMAND_ELASTICITY, DISCOUNT_ELIGIBLE_HOURS,
     DISCOUNT_TIERS, PLANNERS, discount_recommendations, load_data,
     validate_plan,
 )
-from src.scenarios import (  # noqa: E402
+from src.scenarios import (  
     apply_scenario, robustness_summary, run_robustness,
 )
 
@@ -29,10 +24,6 @@ BASELINE = "Baseline"
 BEST = "Optimized + discounts"
 DATA_FILES = ("inventory.csv", "destinations.csv", "routes.csv")
 
-
-# ---------------------------------------------------------------------------
-# Cached computation
-# ---------------------------------------------------------------------------
 def data_version():
     """Changes whenever a CSV is regenerated, so caches never go stale."""
     return tuple((DATA_DIR / f).stat().st_mtime for f in DATA_FILES)
@@ -70,10 +61,6 @@ def robustness(version):
 def rupees(value):
     return f"₹{value:,.0f}"
 
-
-# ---------------------------------------------------------------------------
-# Header and sidebar
-# ---------------------------------------------------------------------------
 st.title("🥭 FreshRoute")
 st.caption(
     "Decision support for perishable produce distribution: what to "
@@ -125,9 +112,6 @@ tabs = st.tabs([
     "Robustness", "Assumptions & checks",
 ])
 
-# ---------------------------------------------------------------------------
-# Overview
-# ---------------------------------------------------------------------------
 with tabs[0]:
     st.subheader(f"{selected} vs {BASELINE}")
 
@@ -179,9 +163,7 @@ with tabs[0]:
         "the crates sold. See the Assumptions tab for details."
     )
 
-# ---------------------------------------------------------------------------
 # Dispatch plan
-# ---------------------------------------------------------------------------
 with tabs[1]:
     st.subheader(f"Dispatch plan: {selected}")
 
@@ -249,9 +231,7 @@ with tabs[1]:
                    title="Route capacity used (%)", range_y=[0, 105]),
         )
 
-# ---------------------------------------------------------------------------
 # Discounts
-# ---------------------------------------------------------------------------
 with tabs[2]:
     st.subheader("Discount recommendations")
     best_plan = results[BEST]["plan"]
@@ -287,9 +267,7 @@ with tabs[2]:
     st.caption("Discount recommendations come from the 'Optimized + "
                "discounts' strategy.")
 
-# ---------------------------------------------------------------------------
 # Inventory
-# ---------------------------------------------------------------------------
 with tabs[3]:
     st.subheader(f"Inventory after dispatch: {selected}")
 
@@ -319,9 +297,6 @@ with tabs[3]:
         "next cycle."
     )
 
-# ---------------------------------------------------------------------------
-# Robustness
-# ---------------------------------------------------------------------------
 with tabs[4]:
     st.subheader("Robustness and sensitivity")
     st.markdown(
@@ -374,9 +349,7 @@ with tabs[4]:
         st.caption("This runs about 90 planning passes, so it starts only "
                    "when you click.")
 
-# ---------------------------------------------------------------------------
 # Assumptions and checks
-# ---------------------------------------------------------------------------
 with tabs[5]:
     st.subheader("Feasibility checks")
     st.dataframe(results[selected]["checks"], hide_index=True)
